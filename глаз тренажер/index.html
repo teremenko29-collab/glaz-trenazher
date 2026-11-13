@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Глаз-тренажёр</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Onest:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="logo" aria-hidden="true" style="color:var(--accent-fg)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
+  </div>
+  <div class="grow">
+    <h1>Глаз-тренажёр</h1>
+    <p>Два глаза, 16 состояний: зрачки, веки, движения</p>
+  </div>
+  <button class="ibtn" id="theme" type="button" aria-label="Сменить тему">
+    <svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+  </button>
+</header>
+
+<main class="app">
+
+  <div class="stage-col">
+    <section class="stage" aria-label="Глаза пациента, вид со стороны врача">
+      <svg id="scene" viewBox="90 92 820 352" role="img" aria-label="Лицо пациента с двумя глазами"></svg>
+      <div class="tag l" id="tagL"></div>
+      <div class="tag r" id="tagR"></div>
+      <div class="vals">
+        <span class="pill"><em>OD</em><b id="vR">3,5</b> мм</span>
+        <span class="pill mid" id="vD"></span>
+        <span class="pill"><em>OS</em><b id="vL">3,5</b> мм</span>
+      </div>
+    </section>
+    <div class="plist" id="plist" role="group" aria-label="Состояния"></div>
+  </div>
+
+  <div class="rightcol">
+  <section class="detail" aria-live="polite">
+    <h2 class="dname" id="dName"></h2>
+    <div class="dlat" id="dLat"></div>
+    <div class="row" id="sideRow">
+      <span class="lab" id="sideLab">Сторона</span>
+      <div class="seg" id="sideSeg"></div>
+    </div>
+    <dl>
+      <div><dt>Что видно</dt><dd id="dSee"></dd></div>
+      <div><dt>Как проверить</dt><dd id="dCheck"></dd></div>
+      <div><dt>Причины</dt><dd id="dCause"></dd></div>
+    </dl>
+    <div class="gauge" id="gauge">
+      <div class="t">Утомление мышц: <b id="gv">0%</b></div>
+      <div class="bar"><i id="gbar"></i></div>
+    </div>
+    <div class="go">
+      <button class="btn" id="demo" type="button">Показать пробу</button>
+      <span id="demoNote"></span>
+    </div>
+  </section>
+  </div>
+
+  <div class="ctrl" aria-label="Управление">
+    <section class="card">
+      <h3>Свет</h3>
+      <div class="fld">
+        <div><label for="lux">Комната</label><output id="luxV">300 лк</output></div>
+        <input type="range" id="lux" min="0" max="100" step="1" value="75">
+      </div>
+      <div class="fld">
+        <div><span>Фонарик</span></div>
+        <div class="seg" id="penSeg">
+          <button type="button" data-pen="off" aria-pressed="true">Выкл</button>
+          <button type="button" data-pen="R" aria-pressed="false">OD</button>
+          <button type="button" data-pen="L" aria-pressed="false">OS</button>
+          <button type="button" data-pen="swing" aria-pressed="false">Качать</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Взгляд пациента</h3>
+      <div class="pad" id="pad" tabindex="0" aria-label="Куда смотрит пациент: потяните точку">
+        <span class="pt" id="padPt"></span>
+        <span class="pc" style="left:8px">вправо у пациента</span>
+        <span class="pc" style="right:8px">влево у пациента</span>
+      </div>
+      <div class="chips">
+        <button class="chip" type="button" id="cCenter">Прямо</button>
+        <button class="chip" type="button" id="cLive" aria-pressed="true">Живой взгляд</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3>Пробы</h3>
+      <div class="chips" style="margin-top:0">
+        <button class="chip" type="button" id="cH" aria-pressed="false">Проба H</button>
+        <button class="chip" type="button" id="cNear" aria-pressed="false">Вблизи</button>
+        <button class="chip" type="button" id="cBlink" aria-pressed="true">Моргание</button>
+        <button class="chip" type="button" id="cOnce">Моргнуть</button>
+        <button class="chip" type="button" id="cClose" aria-pressed="false">Закрыть глаза</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<p class="note">
+  Тренажёр учебный. Размеры зрачка и углы поворота упрощены, чтобы признаки были хорошо видны, и не заменяют клинический осмотр.
+  Картинка показана глазами врача: правый глаз пациента (OD) слева, левый (OS) справа. Нажмите на глаз, чтобы осветить его фонариком.
+</p>
+
+<script src="js/utils.js"></script>
+<script src="js/pathologies.js"></script>
+<script src="js/model.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
